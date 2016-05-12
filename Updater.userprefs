@@ -1,0 +1,19 @@
+﻿<Properties StartupItem="CnCNetLauncher.csproj">
+  <MonoDevelop.Ide.Workbench ActiveDocument="UpdateWindow.cs">
+    <Files>
+      <File FileName="UpdateWindow.cs" Line="7" Column="20" />
+      <File FileName="Program.cs" Line="14" Column="1" />
+      <File FileName="Updater.cs" Line="177" Column="26" />
+      <File FileName="UpdateChecker.cs" Line="45" Column="105" />
+      <File FileName="UpdateFile.cs" Line="3" Column="1" />
+      <File FileName="Configuration.cs" Line="60" Column="66" />
+      <File FileName="cncnet-launcher.exe.config" Line="7" Column="9" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.CnCNetLauncher PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>
