@@ -59,10 +59,5 @@
     <EmbeddedResource Include="Resources\header.png" />
     <EmbeddedResource Include="Resources\icon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="cncnet-launcher.exe.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
