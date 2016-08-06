@@ -1,4 +1,4 @@
-bin/
-obj/
-cncnet-launcher.exe.config
-CnCNetLauncher.userprefs
+*/bin/
+*/obj/
+Launcher/cncnet-launcher.exe.config
+*.userprefs
