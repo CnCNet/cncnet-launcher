@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Launcher\Launcher.csproj", "{F89C240C-D09D-446D-8FD5-25A3A46C06BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Packager", "Packager\Packager.csproj", "{E0C81E1E-78BC-4797-9F54-6E5DA7DE82F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{F89C240C-D09D-446D-8FD5-25A3A46C06BF}.Debug|x86.Build.0 = Debug|x86
 		{F89C240C-D09D-446D-8FD5-25A3A46C06BF}.Release|x86.ActiveCfg = Release|x86
 		{F89C240C-D09D-446D-8FD5-25A3A46C06BF}.Release|x86.Build.0 = Release|x86
+		{E0C81E1E-78BC-4797-9F54-6E5DA7DE82F9}.Debug|x86.ActiveCfg = Debug|x86
+		{E0C81E1E-78BC-4797-9F54-6E5DA7DE82F9}.Debug|x86.Build.0 = Debug|x86
+		{E0C81E1E-78BC-4797-9F54-6E5DA7DE82F9}.Release|x86.ActiveCfg = Release|x86
+		{E0C81E1E-78BC-4797-9F54-6E5DA7DE82F9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
