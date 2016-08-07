@@ -148,7 +148,7 @@ namespace Packager
 
                 var fi = new FileInfo(dstDir + hashString + ".gz");
 
-                manifest.AppendLine(hashString + " " + fi.Length + " " + f);
+                manifest.AppendLine(hashString + " " + fi.Length + " " + f.Replace(Path.DirectorySeparatorChar, '/'));
             }
 
             File.WriteAllText(dstDir + "manifest.txt", manifest.ToString());
