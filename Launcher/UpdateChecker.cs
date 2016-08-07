@@ -63,7 +63,7 @@ namespace CnCNetLauncher
 
                     OnStatusChanged(new UpdateCheckerEventArgs("Calculating update size..."));
 
-                    foreach (string line in manifest.Split(new char[] { '\n' }))
+                    foreach (string line in manifest.Split(new char[] { '\r', '\n' }))
                     {
                         var m = System.Text.RegularExpressions.Regex.Match(line, "^([A-Za-z0-9]{40})\\s+(\\d+)\\s+([\\-\\?]?)(.+)$");
                         if (!m.Success)
