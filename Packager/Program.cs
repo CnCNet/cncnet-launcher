@@ -136,7 +136,7 @@ namespace Packager
 
                     using (var ifs = new FileStream(srcDir + f, FileMode.Open))
                     using (var ofs = new FileStream(dstDir + hashString + ".gz", FileMode.Create))
-                    using (var gzs = new GZipStream(ofs, CompressionMode.Compress))
+                    using (var gzs = new GZipStream(ofs, CompressionLevel.Optimal))
                     {
                         ifs.CopyTo(gzs);
                     }
