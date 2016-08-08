@@ -25,6 +25,7 @@ namespace CnCNetLauncher
                         return null;
 
                     _etag = File.ReadAllText(FilePath("manifest.ver"));
+                    _saveEtag = _etag;
                 }
 
                 return _etag;
@@ -34,10 +35,21 @@ namespace CnCNetLauncher
             }
         }
 
+        public static void ResetETag()
+        {
+            _etag = "";
+            _saveEtag = "";
+        }
+
         public static void SaveETag()
         {
             if (ETag == _saveEtag)
+            {
+                Log.Info("ETag has not changed, skipping save.");
                 return;
+            }
+
+            Log.Info("Saving ETag to manifest.ver");
 
             using (StreamWriter sw = File.CreateText(FilePath("manifest.ver")))
             {
@@ -98,17 +110,24 @@ namespace CnCNetLauncher
 
         public static string FilePath(string path)
         {
-            return InstallPath + Path.DirectorySeparatorChar + String.Join(Char.ToString(Path.DirectorySeparatorChar), path.Split(new char[]{'/'}));
+            return InstallPath + Path.DirectorySeparatorChar + String.Join(Char.ToString(Path.DirectorySeparatorChar), path.Split(new char[]{'\\', '/'}));
         }
 
         public static void StartManagedProcess(string path)
         {
+            var fullPath = FilePath(path);
+            if (!File.Exists(fullPath))
+                path = fullPath;
+
+            Log.Info("Path to executable: {0}", path);
+
             ProcessStartInfo psi = new ProcessStartInfo();
             psi.UseShellExecute = false;
             psi.CreateNoWindow = true;
 
             if (IsLinux || IsMacOSX)
             {
+                Log.Warning("Non-Windows platform, running with mono in PATH.");
                 // self-update works by luck this way
                 psi.FileName = "mono";
                 psi.Arguments = path;

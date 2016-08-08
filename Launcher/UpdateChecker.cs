@@ -27,7 +27,7 @@ namespace CnCNetLauncher
             if (StatusChanged != null)
                 StatusChanged(this, e);
 
-            Console.WriteLine("UpdateChecker: " + e.status);
+            Log.Info(e.status);
         }
 
         public UpdateChecker ()
@@ -40,12 +40,17 @@ namespace CnCNetLauncher
 
             OnStatusChanged(new UpdateCheckerEventArgs("Checking for updates..."));
 
-            Console.WriteLine("Downloading manifest from " + Configuration.UrlTo("manifest.txt"));
-
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(Configuration.UrlTo("manifest.txt"));
-            req.Timeout = Configuration.FirstLaunch ? 60000 : 2000;
+            Log.Info("Downloading manifest from " + Configuration.UrlTo("manifest.txt"));
 
             try {
+                WebRequest req = WebRequest.Create(Configuration.UrlTo("manifest.txt"));
+                if (req == null)
+                    throw new Exception("Invalid URL to manifest: " + Configuration.UrlTo("manifest.txt"));
+
+                if (req.GetType() != typeof(HttpWebRequest))
+                    throw new Exception("WebRequest has invalid type: " + req.GetType());
+
+                req.Timeout = Configuration.FirstLaunch ? 60000 : 2000;
                 if (Configuration.ETag != null)
                     req.Headers["If-None-Match"] = Configuration.ETag;
 
@@ -78,7 +83,7 @@ namespace CnCNetLauncher
                         var uf = new UpdateFile(sha1, size, path, deleted, anyVersion);
                         if (!uf.Validate())
                         {
-                            Console.WriteLine("File failed validation: " + uf.Path);
+                            Log.Info("File failed validation: " + uf.Path);
                             reinstall.Add(uf);
                         }
                     }
@@ -95,7 +100,9 @@ namespace CnCNetLauncher
                     }
                 }
 
-                OnStatusChanged(new UpdateCheckerEventArgs("Failed to check for updates."));
+                Log.Warning("WebException: {0}", e.Message);
+
+                OnStatusChanged(new UpdateCheckerEventArgs(e.Message));
                 Thread.Sleep(3000);
 
                 if (!Configuration.FirstLaunch)

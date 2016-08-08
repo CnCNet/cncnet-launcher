@@ -36,6 +36,7 @@ namespace CnCNetLauncher
 
         public List<UpdateFile> Run()
         {
+            Exception ex = null;
             List<UpdateFile> files = null;
 
             var worker = new BackgroundWorker();
@@ -56,12 +57,14 @@ namespace CnCNetLauncher
 
             worker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) => {
                 this.Close();
-                if (e.Error != null)
-                    throw e.Error;
+                ex = e.Error;
             };
 
             worker.RunWorkerAsync();
             ShowDialog();
+
+            if (ex != null)
+                throw ex;
 
             return files;
         }

@@ -48,6 +48,7 @@
     <Compile Include="Updater.cs" />
     <Compile Include="UpdateWindow.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="Log.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

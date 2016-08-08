@@ -135,9 +135,7 @@ namespace CnCNetLauncher
                 pos = 0;
 
                 try {
-                    Console.WriteLine("Installing " + file.Path + "...");
-
-                    Console.WriteLine("Downloading from " + file.URL);
+                    Log.Info("Installing {0} from {1}...", file.Path, file.URL);
                     HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(file.URL);
                     req.Timeout = 60000;
 
@@ -146,19 +144,17 @@ namespace CnCNetLauncher
                     using (PositionedStream ps = new PositionedStream(responseStream))
                     using (GZipStream gzs = new GZipStream(ps, CompressionMode.Decompress))
                     {
-                        string dir = Path.GetDirectoryName(file.Path);
+                        string dir = Path.GetDirectoryName(file.AbsolutePath);
                         if (dir.Length > 0)
                             Directory.CreateDirectory(dir);
 
-                        if (file.SHA1 == null && File.Exists(file.Path))
+                        if (file.SHA1 == null && File.Exists(file.AbsolutePath))
                         {
-                            Console.WriteLine("Skipping {0} because no hash and file exists...", file.Path);
+                            Log.Info("Skipping {0} because no hash and file exists...", file.Path);
                             continue;
                         }
 
-                        Console.WriteLine("Uncompressing to {0}...", file.Path);
-
-                        using (FileStream fs = new FileStream(file.Path + ".part", FileMode.Create))
+                        using (FileStream fs = new FileStream(file.AbsolutePath + ".part", FileMode.Create))
                         using (BufferedStream bs = new BufferedStream(fs))
                         {
                             byte[] buf = new byte[4096];
@@ -173,10 +169,12 @@ namespace CnCNetLauncher
                             }
                         }
 
-                        if (File.Exists(file.Path))
+                        if (File.Exists(file.AbsolutePath))
                         {
-                            if (Configuration.FilePath(file.Path) == Application.ExecutablePath)
+                            if (Configuration.FilePath(file.AbsolutePath) == Application.ExecutablePath)
                             {
+                                Log.Warning("Detected update to self, trying to cope with it.");
+
                                 if (File.Exists(Application.ExecutablePath + ".old"))
                                     File.Delete(Application.ExecutablePath + ".old");
 
@@ -184,11 +182,11 @@ namespace CnCNetLauncher
                             }
                             else
                             {
-                                File.Delete(file.Path);
+                                File.Delete(file.AbsolutePath);
                             }
                         }
 
-                        File.Move(file.Path + ".part", file.Path);
+                        File.Move(file.AbsolutePath + ".part", file.AbsolutePath);
 
                         responseStream.Close();
                         resp.Close();
@@ -204,12 +202,12 @@ namespace CnCNetLauncher
 
                     if (++retry == 3)
                     {
-                        Console.WriteLine(e.ToString(), e.Message);
+                        Log.Error(e.ToString(), e.Message);
                         return false;
                     }
                     else
                     {
-                        Console.WriteLine("File install failed, retrying...");
+                        Log.Warning("File install failed, retrying...");
                     }
                 }
             }
@@ -226,7 +224,7 @@ namespace CnCNetLauncher
                 i++;
             }
 
-            Console.WriteLine("Calculated total download of {0} bytes.", _totalSize);
+            Log.Info("Calculated total download of {0} bytes.", _totalSize);
 
             foreach (UpdateFile file in _files)
             {

@@ -21,6 +21,13 @@ namespace CnCNetLauncher
             }
         }
 
+        public string AbsolutePath {
+            get
+            {
+                return Configuration.FilePath(Path);
+            }
+        }
+
         string _localSha1;
 
         public bool Valid {
