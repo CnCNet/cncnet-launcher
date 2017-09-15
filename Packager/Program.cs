@@ -5,7 +5,7 @@ using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Packager
+namespace Updater.Packager
 {
     class MainClass
     {
@@ -31,7 +31,7 @@ namespace Packager
         {
             if (args.Length < 2)
             {
-                Console.WriteLine("usage: cncnet-packager.exe <source directory> <destination directory>");
+                Console.WriteLine("usage: updater-packager.exe <source directory> <destination directory>");
                 return;
             }
 

@@ -4,11 +4,10 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{F89C240C-D09D-446D-8FD5-25A3A46C06BF}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>CnCNetLauncher</RootNamespace>
-    <AssemblyName>cncnet-launcher</AssemblyName>
-    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
-    <Win32Icon>Resources\icon.ico</Win32Icon>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Updater.Core</RootNamespace>
+    <AssemblyName>Updater.Core</AssemblyName>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,9 +37,8 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Bootstrap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Configuration.cs" />
     <Compile Include="LoadingWindow.cs" />
     <Compile Include="PositionedStream.cs" />
     <Compile Include="UpdateChecker.cs" />
@@ -49,13 +47,7 @@
     <Compile Include="UpdateWindow.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Log.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\header.png" />
-    <EmbeddedResource Include="Resources\icon.ico" />
+    <Compile Include="IConfiguration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

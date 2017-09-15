@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace CnCNetLauncher
+namespace Updater.Core
 {
     public static class Log
     {
@@ -18,7 +18,7 @@ namespace CnCNetLauncher
             var pathSplit = Application.ExecutablePath.Split(Path.DirectorySeparatorChar);
             var exe = pathSplit[pathSplit.Length - 1];
             var exeSplit = exe.Split('.');
-            var logFile = Configuration.FilePath(exeSplit[0] + ".log");
+            var logFile = exeSplit[0] + ".log";
 
             Console.WriteLine("Opening log from " + logFile);
 
@@ -53,7 +53,7 @@ namespace CnCNetLauncher
             if (logStream != null && logStream.CanWrite)
             {
                 logStream.Write(bytes, 0, bytes.Length);
-                logStream.FlushAsync();
+                logStream.Flush();
             }
         }
 

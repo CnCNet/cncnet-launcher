@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.ComponentModel;
 
-namespace CnCNetLauncher
+namespace Updater.Core
 {
     public class UpdateWindow : Form
     {
@@ -21,14 +21,14 @@ namespace CnCNetLauncher
             }
             set
             {
-                _autoLaunch.Checked = true;
+                _autoLaunch.Checked = value;
             }
         }
 
-        public UpdateWindow()
+        public UpdateWindow(string name, Image backgroundImage, Icon icon, Uri news, bool autoLaunch)
         {
-            Text = "Updating " + Configuration.Name;
-            Icon = Configuration.Icon;
+            Text = "Updating " + name;
+            Icon = icon;
 
             MaximizeBox = false;
             DoubleBuffered = true;
@@ -42,8 +42,8 @@ namespace CnCNetLauncher
             var outerPanel = new FlowLayoutPanel();
             var picture = new PictureBox();
 
-            picture.Image = Configuration.Background;
-            picture.ClientSize = new Size(Configuration.Background.Width, Configuration.Background.Height);
+            picture.Image = backgroundImage;
+            picture.ClientSize = new Size(picture.Image.Width, picture.Image.Height);
             picture.Margin = Padding.Empty;
             picture.Margin = new Padding();
 
@@ -72,8 +72,8 @@ namespace CnCNetLauncher
 
             _autoLaunch = new CheckBox();
             _autoLaunch.AutoSize = true;
-            _autoLaunch.Text = "Launch " + Configuration.Name + " as soon as it's ready";
-            _autoLaunch.Checked = !Configuration.FirstLaunch;
+            _autoLaunch.Text = "Launch " + name + " as soon as it's ready";
+            _autoLaunch.Checked = autoLaunch;
             _autoLaunch.TextAlign = ContentAlignment.BottomLeft;
             controlPanel.Controls.Add(_autoLaunch);
 
@@ -81,12 +81,14 @@ namespace CnCNetLauncher
             buttonPanel.AutoSize = true;
             buttonPanel.Margin = Padding.Empty;
 
+            EventHandler newsButtonClick = (sender, e) => {
+                System.Diagnostics.Process.Start(news.ToString());
+            };
+
             var newsButton = new Button();
             newsButton.AutoSize = true;
             newsButton.Text = "Update news...";
-            newsButton.Click += (object sender, EventArgs e) => {
-                System.Diagnostics.Process.Start(Configuration.NewsURL);
-            };
+            newsButton.Click += newsButtonClick;
             buttonPanel.Controls.Add(newsButton);
 
             _launchButton = new Button();
@@ -110,10 +112,8 @@ namespace CnCNetLauncher
             CenterToScreen();
         }
 
-        public bool Run(List<UpdateFile> files)
+        public bool Run(Updater updater)
         {
-            var updater = new Updater(files);
-
             var worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
             worker.ProgressChanged += (object sender, ProgressChangedEventArgs e) => {

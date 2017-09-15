@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 
-namespace CnCNetLauncher
+namespace Updater.Core
 {
     public class LoadingWindow : Form
     {
@@ -14,12 +14,12 @@ namespace CnCNetLauncher
         protected StringFormat _format;
         protected String _status;
 
-        public LoadingWindow()
+        public LoadingWindow(string name, Image backgroundImage, Icon icon)
         {
-            Text = Configuration.Name;
-            BackgroundImage = Configuration.Background;
+            Text = name;
+            BackgroundImage = backgroundImage;
             Size = new Size(BackgroundImage.Width, BackgroundImage.Height);
-            Icon = Configuration.Icon;
+            Icon = icon;
             FormBorderStyle = FormBorderStyle.None;
 
             MinimizeBox = false;
@@ -34,7 +34,7 @@ namespace CnCNetLauncher
             CenterToScreen();
         }
 
-        public List<UpdateFile> Run()
+        public List<UpdateFile> Run(UpdateChecker uc)
         {
             Exception ex = null;
             List<UpdateFile> files = null;
@@ -46,10 +46,11 @@ namespace CnCNetLauncher
                 this.Invalidate();
             };
 
-            var uc = new UpdateChecker();
-            uc.StatusChanged += (object sender, UpdateCheckerEventArgs e) => {
+            UpdateChecker.StatusChangedEventHandler statusChanged = (object sender, UpdateCheckerEventArgs e) => {
                 worker.ReportProgress(0, e.status);
             };
+
+            uc.StatusChanged += statusChanged;
 
             worker.DoWork += (object sender, DoWorkEventArgs e) => {
                 files = uc.Run();
@@ -62,6 +63,8 @@ namespace CnCNetLauncher
 
             worker.RunWorkerAsync();
             ShowDialog();
+
+            uc.StatusChanged -= statusChanged;
 
             if (ex != null)
                 throw ex;

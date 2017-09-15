@@ -4,12 +4,12 @@ using System.Runtime.CompilerServices;
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("cncnet-launcher")]
+[assembly: AssemblyTitle("Updater.Core")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Copyright (c) 2016-2017 Toni Spets <toni.spets@iki.fi>")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

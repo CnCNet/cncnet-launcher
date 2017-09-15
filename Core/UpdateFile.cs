@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace CnCNetLauncher
+namespace Updater.Core
 {
     public class UpdateFile
     {
@@ -12,26 +12,14 @@ namespace CnCNetLauncher
         public string Path { get; protected set; }
         public bool Deleted { get; protected set; }
         public bool AnyVersion { get; protected set; }
-
-        public string URL
-        {
-            get
-            {
-                return Configuration.UrlTo(SHA1 + ".gz");
-            }
-        }
-
-        public string AbsolutePath {
-            get
-            {
-                return Configuration.FilePath(Path);
-            }
-        }
+        public Uri URL { get; protected set; }
 
         string _localSha1;
 
-        public bool Valid {
-            get {
+        public bool Valid
+        {
+            get
+            {
                 if (_localSha1 == null)
                     return Validate();
 
@@ -39,34 +27,33 @@ namespace CnCNetLauncher
             }
         }
 
-        public UpdateFile(string sha1, int size, string path, bool deleted, bool anyVersion)
+        public UpdateFile(string sha1, int size, string path, bool deleted, bool anyVersion, Uri url)
         {
             SHA1 = sha1;
             Size = size;
             Path = path;
             Deleted = deleted;
             AnyVersion = anyVersion;
+            URL = url;
         }
 
         public bool Validate()
         {
-            string filePath = Configuration.FilePath(Path);
-
             if (Deleted)
             {
-                if (File.Exists(filePath))
-                    File.Delete(filePath);
+                if (File.Exists(Path))
+                    File.Delete(Path);
 
                 return true;
             }
 
-            if (!File.Exists(filePath))
+            if (!File.Exists(Path))
                 return false;
 
             if (AnyVersion)
                 return true;
 
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            using (FileStream fs = new FileStream(Path, FileMode.Open))
             using (BufferedStream bs = new BufferedStream(fs))
             {
                 using (SHA1Managed sha1 = new SHA1Managed())

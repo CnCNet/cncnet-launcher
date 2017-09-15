@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace CnCNetLauncher
+namespace Updater.Core
 {
     public class Utils
     {

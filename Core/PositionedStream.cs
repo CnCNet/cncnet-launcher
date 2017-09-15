@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace CnCNetLauncher
+namespace Updater.Core
 {
     public class PositionedStream : Stream
     {
