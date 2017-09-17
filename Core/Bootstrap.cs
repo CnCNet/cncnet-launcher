@@ -42,7 +42,7 @@ namespace Updater.Core
 
             Log.Info("{0} files to download.", files.Count);
 
-            var u = new Updater(files, "patch");
+            var u = new Updater(files, c.UpdateDir);
             var uw = new UpdateWindow(c.Name, c.Background, c.Icon, c.News, c.ETag != null);
             if (!uw.Run(u))
                 return;

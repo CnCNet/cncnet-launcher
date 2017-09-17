@@ -80,6 +80,11 @@ namespace Updater.Simple
             get { return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location); }
         }
 
+        public string UpdateDir
+        {
+            get { return "patch"; }
+        }
+
         public Image Background
         {
             get
