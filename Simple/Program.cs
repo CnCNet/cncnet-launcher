@@ -14,7 +14,7 @@ namespace Updater.Simple
                 if (arg == "-log")
                     Log.Open();
                 else if (arg == "-force")
-                    c.ResetETag();
+                    c.ETag = null;
             }
 
             try

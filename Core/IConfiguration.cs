@@ -12,16 +12,6 @@ namespace Updater.Core
         string ETag { get; set; }
 
         /// <summary>
-        /// Resets ETag to default/empty.
-        /// </summary>
-        void ResetETag();
-
-        /// <summary>
-        /// Save ETag to persistent storage.
-        /// </summary>
-        void SaveETag();
-
-        /// <summary>
         /// Application name that is being updated.
         /// </summary>
         /// <value>The application name.</value>
@@ -59,7 +49,7 @@ namespace Updater.Core
         /// Main executable path that is executed when updates are finished.
         /// </summary>
         /// <value>The main executable path.</value>
-        string ExePath { get; }
+        string Executable { get; }
 
         /// <summary>
         /// Root directory where updates are installed.

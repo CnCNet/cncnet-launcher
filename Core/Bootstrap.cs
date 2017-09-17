@@ -24,32 +24,22 @@ namespace Updater.Core
             var uc = new UpdateChecker(c.Manifest, c.ETag);
             var lw = new LoadingWindow(c.Name, c.Background, c.Icon);
             List<UpdateFile> files = lw.Run(uc);
-            c.ETag = uc.ETag;
 
-            if (files == null)
+            if (files?.Count > 0)
             {
-                Log.Error("Failed to download manifest.");
-                return;
+                Log.Info("{0} files to download.", files.Count);
+                var u = new Updater(files, c.UpdateDir);
+                var uw = new UpdateWindow(c.Name, c.Background, c.Icon, c.News, c.ETag != null);
+                if (!uw.Run(u))
+                    return;
+                Log.Info("Download successful, launching...");
             }
 
-            if (files.Count == 0)
+            if (uc.ETag != null)
             {
-                Log.Info("No files to download, launching.");
-                c.SaveETag();
-                StartManagedProcess(c.ExePath);
-                return;
+                c.ETag = uc.ETag;
+                StartManagedProcess(c.Executable);
             }
-
-            Log.Info("{0} files to download.", files.Count);
-
-            var u = new Updater(files, c.UpdateDir);
-            var uw = new UpdateWindow(c.Name, c.Background, c.Icon, c.News, c.ETag != null);
-            if (!uw.Run(u))
-                return;
-
-            Log.Info("Download successful, launching...");
-            c.SaveETag();
-            StartManagedProcess(c.ExePath);
         }
 
         // this is our best guess

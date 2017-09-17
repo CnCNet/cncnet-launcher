@@ -10,7 +10,6 @@ namespace Updater.Simple
     public class Configuration : IConfiguration
     {
         string _etag = null;
-        string _saveEtag = null;
 
         public string ETag
         {
@@ -21,35 +20,22 @@ namespace Updater.Simple
                         return null;
 
                     _etag = File.ReadAllText("manifest.ver");
-                    _saveEtag = _etag;
                 }
 
                 return _etag;
             }
             set {
-                _saveEtag = value;
-            }
-        }
+                if (_etag != value)
+                {
+                    _etag = value;
 
-        public void ResetETag()
-        {
-            _etag = "";
-            _saveEtag = "";
-        }
+                    Log.Info("Saving ETag to manifest.ver");
 
-        public void SaveETag()
-        {
-            if (ETag == _saveEtag)
-            {
-                Log.Info("ETag has not changed, skipping save.");
-                return;
-            }
-
-            Log.Info("Saving ETag to manifest.ver");
-
-            using (StreamWriter sw = File.CreateText("manifest.ver"))
-            {
-                sw.Write(_saveEtag);
+                    using (StreamWriter sw = File.CreateText("manifest.ver"))
+                    {
+                        sw.Write(_etag);
+                    }
+                }
             }
         }
 
@@ -70,9 +56,9 @@ namespace Updater.Simple
             }
         }
 
-        public string ExePath
+        public string Executable
         {
-            get { return ConfigurationManager.AppSettings["ExePath"]; }
+            get { return ConfigurationManager.AppSettings["Executable"]; }
         }
 
         public string InstallDir
