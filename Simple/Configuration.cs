@@ -84,7 +84,7 @@ namespace Updater.Simple
         {
             get
             {
-                var backgroundPath = ConfigurationManager.AppSettings["BackgroundFile"];
+                var backgroundPath = ConfigurationManager.AppSettings["Background"];
                 return backgroundPath == null ? null : Image.FromFile(backgroundPath);
             }
         }
@@ -93,8 +93,8 @@ namespace Updater.Simple
         {
             get
             {
-                var iconPath = ConfigurationManager.AppSettings["IconFile"];
-                return iconPath == null ? null : new Icon(iconPath);
+                var iconPath = ConfigurationManager.AppSettings["Icon"];
+                return iconPath == null ? null : Icon.ExtractAssociatedIcon(iconPath);
             }
         }
 
