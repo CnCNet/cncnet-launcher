@@ -66,7 +66,7 @@ namespace Updater.Core
                 {
                     ETag = resp.Headers["ETag"];
 
-                    Utils.CopyStream(responseStream, ms);
+                    responseStream.CopyTo(ms);
                     responseStream.Close();
                     byte[] data = ms.ToArray();
 

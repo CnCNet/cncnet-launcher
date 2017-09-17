@@ -217,7 +217,7 @@ namespace Updater.Core
                     }
 
                     HttpWebRequest req = (HttpWebRequest)WebRequest.Create(file.URL);
-                    req.Timeout = 60000;
+                    req.Timeout = 30000;
 
                     if (File.Exists(updateFilePath))
                     {
@@ -228,7 +228,7 @@ namespace Updater.Core
                     using (Stream responseStream = resp.GetResponseStream())
                     using (FileStream fs = new FileStream(updateFilePath, FileMode.Append))
                     {
-                        byte[] buf = new byte[4096];
+                        byte[] buf = new byte[16384];
                         int i;
                         while ((i = responseStream.Read(buf, 0, buf.Length)) > 0)
                         {
@@ -302,14 +302,8 @@ namespace Updater.Core
                 using (FileStream ifs = File.OpenRead(updateFilePath))
                 using (GZipStream gzs = new GZipStream(ifs, CompressionMode.Decompress))
                 using (FileStream ofs = new FileStream(file.Path, FileMode.Create))
-                using (BufferedStream bs = new BufferedStream(ofs))
                 {
-                    byte[] buf = new byte[4096];
-                    int i;
-                    while ((i = gzs.Read(buf, 0, buf.Length)) > 0)
-                    {
-                        bs.Write(buf, 0, i);
-                    }
+                    gzs.CopyTo(ofs);
                 }
             }
             catch (InvalidDataException)

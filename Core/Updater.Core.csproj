@@ -44,7 +44,6 @@
     <Compile Include="UpdateFile.cs" />
     <Compile Include="Updater.cs" />
     <Compile Include="UpdateWindow.cs" />
-    <Compile Include="Utils.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="IConfiguration.cs" />
   </ItemGroup>
