@@ -226,18 +226,14 @@ namespace Updater.Core
 
                     using (HttpWebResponse resp = (HttpWebResponse)req.GetResponse())
                     using (Stream responseStream = resp.GetResponseStream())
-                    using (PositionedStream ps = new PositionedStream(responseStream))
                     using (FileStream fs = new FileStream(updateFilePath, FileMode.Append))
-                    using (BufferedStream bs = new BufferedStream(fs))
                     {
                         byte[] buf = new byte[4096];
                         int i;
-                        while ((i = ps.Read(buf, 0, buf.Length)) > 0)
+                        while ((i = responseStream.Read(buf, 0, buf.Length)) > 0)
                         {
-                            bs.Write(buf, 0, i);
-                            long inc = ps.Position - pos;
-                            pos += inc;
-                            _totalPosition += inc;
+                            fs.Write(buf, 0, i);
+                            _totalPosition += i;
 
                             UpdateDownloadStatus();
                         }

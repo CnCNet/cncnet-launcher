@@ -40,7 +40,6 @@
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LoadingWindow.cs" />
-    <Compile Include="PositionedStream.cs" />
     <Compile Include="UpdateChecker.cs" />
     <Compile Include="UpdateFile.cs" />
     <Compile Include="Updater.cs" />
