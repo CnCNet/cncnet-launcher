@@ -67,6 +67,9 @@ namespace Updater.Core
         {
             Log.Info("Path to executable: {0}", path);
 
+            if (path == null)
+                return;
+
             ProcessStartInfo psi = new ProcessStartInfo();
             psi.UseShellExecute = false;
             psi.CreateNoWindow = true;

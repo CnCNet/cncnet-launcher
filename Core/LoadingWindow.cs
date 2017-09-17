@@ -18,7 +18,14 @@ namespace Updater.Core
         {
             Text = name;
             BackgroundImage = backgroundImage;
-            Size = new Size(BackgroundImage.Width, BackgroundImage.Height);
+            if (BackgroundImage != null)
+            {
+                Size = new Size(BackgroundImage.Width, BackgroundImage.Height);
+            }
+            else
+            {
+                Size = new Size(500, 100);
+            }
             Icon = icon;
             FormBorderStyle = FormBorderStyle.None;
 

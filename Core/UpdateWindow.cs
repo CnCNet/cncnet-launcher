@@ -40,18 +40,26 @@ namespace Updater.Core
             Margin = Padding.Empty;
 
             var outerPanel = new FlowLayoutPanel();
-            var picture = new PictureBox();
-
-            picture.Image = backgroundImage;
-            picture.ClientSize = new Size(picture.Image.Width, picture.Image.Height);
-            picture.Margin = Padding.Empty;
-            picture.Margin = new Padding();
-
             outerPanel.Padding = Padding.Empty;
             outerPanel.Margin = Padding.Empty;
             outerPanel.FlowDirection = FlowDirection.TopDown;
             outerPanel.AutoSize = true;
 
+            var picture = new PictureBox();
+
+            if (backgroundImage != null)
+            {
+                picture.Image = backgroundImage;
+                picture.ClientSize = new Size(picture.Image.Width, picture.Image.Height);
+            }
+            else
+            {
+                // the whole update window depends on the size of the header image
+                picture.ClientSize = new Size(500, 0);
+            }
+
+            picture.Margin = Padding.Empty;
+            picture.Margin = new Padding();
             outerPanel.Controls.Add(picture);
 
             var controlPanel = new TableLayoutPanel();
@@ -81,15 +89,19 @@ namespace Updater.Core
             buttonPanel.AutoSize = true;
             buttonPanel.Margin = Padding.Empty;
 
-            EventHandler newsButtonClick = (sender, e) => {
-                System.Diagnostics.Process.Start(news.ToString());
-            };
+            if (news != null)
+            {
+                EventHandler newsButtonClick = (sender, e) =>
+                {
+                    System.Diagnostics.Process.Start(news.ToString());
+                };
 
-            var newsButton = new Button();
-            newsButton.AutoSize = true;
-            newsButton.Text = "Update news...";
-            newsButton.Click += newsButtonClick;
-            buttonPanel.Controls.Add(newsButton);
+                var newsButton = new Button();
+                newsButton.AutoSize = true;
+                newsButton.Text = "Update news...";
+                newsButton.Click += newsButtonClick;
+                buttonPanel.Controls.Add(newsButton);
+            }
 
             _launchButton = new Button();
             _launchButton.AutoSize = true;
